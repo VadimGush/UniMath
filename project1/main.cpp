@@ -82,7 +82,7 @@ double fact(int n) {
  */
 void input() {
 	float input = 0;
-	cout << "Write (0 for default value): ";
+	cout << "Write epsilon (0 for default value): ";
 	cin >> input;
 	if (input != 0) epsilon = input;
 
