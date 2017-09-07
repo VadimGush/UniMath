@@ -1,0 +1,5 @@
+Write (0 for default value): Write a: Write b: e: 0.0001, a: 3, b: 5
+1: 0.06 , 1
+2: 0.000216 , 6
+Sum: -0.06
+Summands: 1
