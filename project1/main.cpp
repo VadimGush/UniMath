@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <iomanip>
+#include <fstream>
 using namespace std;
 
 const float v = 6;
@@ -53,7 +54,7 @@ float sum(float x, int* count) {
 	int i = 1;
 	// Считаем сумму до тех пор, пока один из элементов не станет меньше epsilon
 	while (true) {
-		double element = pow(-1,i) * (pow(v*x,i+(i-1)) / fact(i+(i-1)));
+		double element = pow(-1,i+1) * (pow(v*x,i+(i-1)) / fact(i+(i-1)));
 
 		if (abs(element) < epsilon) break;
 		else {
