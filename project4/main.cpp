@@ -25,7 +25,7 @@ void	input();		// ввод глобальных данных
 void	printLine(int);		// вывод линии для таблицы
 // Разнообразные интерполянты
 double	interpolation(double, double, double, double, double);		// линейная интерполяция
-double	interpolation2(double x, functionValue function[], int lenght);	// 
+double	interpolation2(double x, functionValue function[], int lenght);	// интерполяционный многочлен Лагранджа
 
 int main() {
 	input(); // читаем данные
