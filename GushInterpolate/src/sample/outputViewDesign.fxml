@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="585.0" prefWidth="954.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox layoutY="30.0" prefHeight="554.0" prefWidth="954.0">
+         <children>
+            <VBox prefHeight="571.0" prefWidth="509.0" spacing="10.0">
+               <children>
+                  <Label text="Statistics">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="calculationTime" text="Time of calculation: 1s 56 ms" />
+                  <Separator prefWidth="200.0" />
+                  <Label text="Function">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+                  <TableView fx:id="functionTable" prefHeight="170.0" prefWidth="445.0">
+                    <columns>
+                      <TableColumn editable="false" prefWidth="140.0" text="x" />
+                      <TableColumn editable="false" minWidth="0.0" prefWidth="212.0" text="f(x)" />
+                        <TableColumn editable="false" prefWidth="94.0" text="Count" />
+                    </columns>
+                  </TableView>
+                  <Separator prefWidth="200.0" />
+                  <Label text="Interpolation">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+                  <TableView fx:id="interpolationTable" prefHeight="170.0" prefWidth="522.0">
+                     <columns>
+                        <TableColumn editable="false" prefWidth="140.0" text="x" />
+                        <TableColumn editable="false" minWidth="0.0" prefWidth="311.0" text="i(x)" />
+                     </columns>
+                  </TableView>
+                  <Separator prefWidth="200.0" />
+                  <Label alignment="CENTER" prefHeight="15.0" prefWidth="741.0" text="© Гуш В.В., 2017 год" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
+            <VBox prefHeight="578.0" prefWidth="534.0" spacing="10.0">
+               <children>
+                  <Label text="Graph">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+                  <Label text="Blue - interpolator, green - function" />
+                  <Separator prefWidth="200.0" />
+                  <Canvas fx:id="graph" height="470.0" width="470.0" />
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
+         </children>
+      </HBox>
+      <MenuBar prefHeight="29.0" prefWidth="954.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+                  <MenuItem mnemonicParsing="false" text="New project" />
+                  <MenuItem mnemonicParsing="false" text="Save project" />
+                  <MenuItem mnemonicParsing="false" text="Open project" />
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </children>
+</AnchorPane>
