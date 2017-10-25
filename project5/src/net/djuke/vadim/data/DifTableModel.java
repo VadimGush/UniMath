@@ -10,7 +10,6 @@ public class DifTableModel implements TableModel {
 
     public DifTableModel(Data data) {
         columns = data.getDifTable().getColumns();
-        System.out.println(getRowCount());
     }
 
     @Override

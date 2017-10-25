@@ -23,7 +23,6 @@ public class Graphic extends JPanel {
             if (argument > maxArgument) maxArgument = argument;
         }
         oneArgument = 380f / (maxArgument - minArgument);
-        System.out.println(oneArgument);
     }
 
     public void paint(Graphics g) {
@@ -35,16 +34,30 @@ public class Graphic extends JPanel {
         g.setColor(Color.darkGray);
         g.drawLine(190,0,190,380);
 
+        // Рисуем значения интерполянты
+        for (double argument : data.getInterpolate().getArgumentsList()) {
+            int x = (int)((argument - minArgument) * oneArgument);
+            g.setColor(Color.darkGray);
+            g.drawLine(x,190 + 2,x,190 - 2);
+
+            g.setColor(Color.MAGENTA);
+            g.fillOval(x, 190 + (int)(data.getInterpolate().getValue(argument) * 200 * 0.75f),2,2);
+        }
+
+
         // Рисуем значения функции
         for (double argument : data.getFunction().getArgumentsList()) {
             int x = (int)((argument - minArgument) * oneArgument);
-            System.out.println(x);
             g.setColor(Color.darkGray);
-            g.drawLine(x,190 + 10,x,190 - 10);
+            g.drawLine(x,190 + 5,x,190 - 5);
 
             g.setColor(Color.CYAN);
-            g.fillOval(x, 190 + (int)(data.getFunction().getValue(argument) * 200),4,4);
+            g.fillOval(x, 190 + (int)(data.getFunction().getValue(argument) * 200 * 0.75f),4,4);
         }
+
+        g.setColor(Color.darkGray);
+        g.drawString(String.valueOf(minArgument), 5, 210);
+        g.drawString(String.valueOf(maxArgument), 355, 210);
     }
 
     private void drawLine(Graphics g, int x1, int y1, int x2, int y2) {

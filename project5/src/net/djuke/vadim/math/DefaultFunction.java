@@ -13,7 +13,7 @@ public class DefaultFunction implements Function{
         double delta = (data.getEnd() - data.getStart()) / data.getSegmentsCount();
         for (int i = 0; i <= data.getSegmentsCount(); i++) {
             double argument = data.getStart() + delta * i;
-            data.getFunction().putValue((double)Math.round(argument * 1000) / 1000, function(argument));
+            data.getFunction().putValue(argument, function(argument));
         }
 
     }

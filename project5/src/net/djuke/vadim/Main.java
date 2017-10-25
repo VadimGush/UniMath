@@ -27,7 +27,6 @@ public class Main {
 
     public static void main(String... var0) {
         createSettingsWindow();
-        System.out.println("Hello world");
     }
 
     private static void createSettingsWindow() {
@@ -36,6 +35,9 @@ public class Main {
         settings.setDefaultCloseOperation(3);
         settings.setSize(380, 410);
         settings.setResizable(false);
+
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        settings.setLocation(dim.width/2-settings.getSize().width/2, dim.height/2-settings.getSize().height/2);
 
         JPanel var0 = new JPanel();
         var0.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -105,6 +107,9 @@ public class Main {
         window.setDefaultCloseOperation(3);
         window.setSize(800,600);
         window.setResizable(false);
+
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
 
         JPanel tablesPanel = new JPanel();
         tablesPanel.setMinimumSize(new Dimension(400,600));
