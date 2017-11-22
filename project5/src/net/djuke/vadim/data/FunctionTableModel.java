@@ -1,8 +1,5 @@
 package net.djuke.vadim.data;
 
-import net.djuke.vadim.data.Data;
-import net.djuke.vadim.data.FunctionData;
-
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 

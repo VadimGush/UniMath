@@ -5,6 +5,9 @@ import net.djuke.vadim.data.Data;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Graphic - выполняет отрисовку графика функции
+ */
 public class Graphic extends JPanel {
 
     private Data data;
@@ -13,6 +16,10 @@ public class Graphic extends JPanel {
     private double maxArgument = Double.MIN_VALUE;
     private double oneArgument = 0;
 
+    /**
+     * Создаём новый график по готовым данным
+     * @param data данные содержащие в себе значения функции и значения интерполянты
+     */
     public Graphic(Data data) {
         setBackground(Color.BLACK);
         this.data = data;
@@ -25,6 +32,10 @@ public class Graphic extends JPanel {
         oneArgument = 380f / (maxArgument - minArgument);
     }
 
+    /**
+     * Отрисовка графика
+     * @param g
+     */
     public void paint(Graphics g) {
         super.paint(g);
 
@@ -34,25 +45,36 @@ public class Graphic extends JPanel {
         g.setColor(Color.darkGray);
         g.drawLine(190,0,190,380);
 
-        // Рисуем значения интерполянты
+        /*
+         * Я заметил что график вышел инвертированным по оси X
+         * и поэтому соотвтственно инвертировал все точки
+         *
+         * Но по всей видимости где-то ранее я допустил небольшую ошибку в расчётах
+         * из за которой сменился знак
+         */
+        // Отрисовка графика интерполянты
         for (double argument : data.getInterpolate().getArgumentsList()) {
+            // На оси X точки, в которых интерполянта определенна
             int x = (int)((argument - minArgument) * oneArgument);
             g.setColor(Color.darkGray);
-            g.drawLine(x,190 + 2,x,190 - 2);
+            g.drawLine(380 - x,190 + 2, 380 - x,190 - 2);
 
+            // И соотвественно точки самого графика интерполянты
             g.setColor(Color.MAGENTA);
-            g.fillOval(x, 190 + (int)(data.getInterpolate().getValue(argument) * 200 * 0.75f),2,2);
+            g.fillOval(380 - x, 190 + (int)(data.getInterpolate().getValue(argument) * 200 * 0.75f),2,2);
         }
 
 
-        // Рисуем значения функции
+        /*
+         * Рисуем график функции
+         */
         for (double argument : data.getFunction().getArgumentsList()) {
             int x = (int)((argument - minArgument) * oneArgument);
             g.setColor(Color.darkGray);
-            g.drawLine(x,190 + 5,x,190 - 5);
+            g.drawLine(380 - x,190 + 5,380 - x,190 - 5);
 
             g.setColor(Color.CYAN);
-            g.fillOval(x, 190 + (int)(data.getFunction().getValue(argument) * 200 * 0.75f),4,4);
+            g.fillOval(380 - x, 190 + (int)(data.getFunction().getValue(argument) * 200 * 0.75f),4,4);
         }
 
         g.setColor(Color.darkGray);
@@ -60,7 +82,4 @@ public class Graphic extends JPanel {
         g.drawString(String.valueOf(maxArgument), 355, 210);
     }
 
-    private void drawLine(Graphics g, int x1, int y1, int x2, int y2) {
-        g.drawLine(x1,380-y1,x2,380-y2);
-    }
 }
