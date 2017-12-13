@@ -1,4 +1,3 @@
 #!/bin/bash
-
-# Small script for compiling and running program
-clear; g++ main.cpp -o program && ./program
+javac -sourcepath src -d out src/net/djuke/vadim/Main.java
+java -cp out net.djuke.vadim.Main

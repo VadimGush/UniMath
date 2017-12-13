@@ -4,52 +4,53 @@
 #include <fstream>
 using namespace std;
 
-// Структура для записи значения функций
+// Структура для записи значений функции
 struct functionValue {
-	double argument;
-	double value;
-	int termsCount;
+	double argument;	// аргумент функции
+	double value;		// значение функции
+	int termsCount;		// количество слагаемых
 };
 // Основная константа
-const float v = 6;
-// Входные данные
-float epsilon = pow(10,-4);
-float a = 0;
-float b = 1;
-int segments = 5;
-int pointPerSegment = 1;
+const float v 	= 6; 		// номер варианта
+float epsilon 	= pow(10,-4); 	// заданная точность
+int segments 	= 5;		// количество сегментов
+// Точки задающие границы отрезка
+float a;
+float b;
 
-// Прототипы используемых функций
-float sum(float, int*);
-double fact(int);
-void input();
-void printLine(int);
-double interpolation(double, double, double, double, double);
+// Прототипы функций
+float	sum(float, int*);	// расчёт функции
+double	fact(int);		// расчёт факториала
+void	input();		// ввод глобальных данных 
+void	printLine(int);		// вывод линии для таблицы
+// Разнообразные интерполянты
+double	interpolation(double, double, double, double, double);		// линейная интерполяция
+double	interpolation2(double x, functionValue function[], int lenght);	// интерполяционный многочлен Лагранджа
 
 int main() {
-	// Читаем входные данные
-	input();
+	input(); // читаем данные
 
-	// Рисуем линию сверху
+	// Создаём массив для хранения аргмунтов и значений функции
+	functionValue function[segments+1];
+
+	// ПОДСЧЁТ И ВЫВОД АРГУМЕНТОВ ФУНКЦИИ
 	printLine(segments+1);
-	// Выводим значения x на экран
 	float delta = (b - a) / segments;
-	for (int i = 0; i <= segments; i++)
-		cout << setw(20) << left << a + delta * i;
+	for (int i = 0; i <= segments; i++) {
+		double argument = a + delta * i;	// считаем аргумент
+		function[i].argument = argument;	// записываем в массив
+		cout << setw(20) << left << argument;	// выводим на экран
+	}
 	cout << endl;
 
-	// Подсчитываем значение функции и выводим её на экран
-	functionValue function[segments+1];
+	// ПОДСЧЁТ И ВЫВОД ЗНАЧЕНИЙ ФУНКЦИИ 
 	for (int i = 0; i <= segments; i++) {
-		// Запоминаем аргумент функции, значение функции и количество слагаемых
-		function[i].argument = a + delta * i;
 		function[i].value = sum(function[i].argument, &function[i].termsCount);
-		// Выводим значение
 		cout << setw(20) << left << function[i].value;
 	}
 	cout << endl;
 
-	// Выводим массив количества слагаемых
+	// ВЫВОД КОЛИЧЕСТВА СЛАГАЕМЫХ
 	for (int i = 0; i <= segments; i++) 
 		cout << setw(20) << left << function[i].termsCount;
 	cout << endl;
@@ -58,38 +59,52 @@ int main() {
 	// Создадим файл для вывода данных
 	ofstream ofs("data.log");
 	
-	// Получаем значения 
+	// ПОДСЧЁТ И ВЫВОД ИНТЕРПОЛЯНТЫ 
+	// Количество точек между узлами
+	int pointPerSegment;
 	cout << "Write count of points per segment: ";
-	cin >> pointPerSegment; // вводим количество точек на сегмент функции
-	int count = (segments) * (pointPerSegment+1); // количество точек в интерполянте
-	double interpolator[count]; // массив для хранения значений интерполянты
-	printLine(count); // рисуем разделяющую линию
-	int id = 0; // индекс текущего значения интерполянты
+	cin >> pointPerSegment;
+
+	// Количество точек в интерполянте
+	int count = (segments + 1) + (segments * pointPerSegment);
+	// Массив для хранения значений интерполянты
+	double interpolator[count];
+
+	printLine(count);	// рисуем разделяющую линию
+	int id = 0;		// индекс текущего значения интерполянты
 	for (int i = 0; i<segments; i++) {
+		// Расстояние между точками
 		double delta = (function[i+1].argument - function[i].argument) / (pointPerSegment+1);
-		// выводим текущий аргумент функции
+		// Вывод значения функции
 		cout << setw(20) << left << function[i].argument;
+		// Запись значения функции в файл
 		ofs << function[i].argument << " " << function[i].value << " ?0" << endl;
 		interpolator[id] = function[i].value;
 		id++;
 		for (int c=1; c<=pointPerSegment; c++) {
+			// Расстояние между точками
 			double step = delta * c;
-			// Выводим текущий аргмент интерполянты
+			// Выводим текущий аргумент интерполянты
 			cout << setw(20) << left << function[i].argument + step;
 			// Расчитываем значение интерполянты
-			interpolator[id] = interpolation(function[i].argument + step, function[i].argument, function[i+1].argument, function[i].value, function[i+1].value);
+			interpolator[id] = interpolation2(function[i].argument + step, function, segments+1);
+			// interpolator[id] = interpolation(function[i].argument + step, function[i].argument, function[i+1].argument, function[i].value, function[i+1].value);
 			// Значение интерполянты записываем в файл
 			ofs << function[i].argument + step << " ?0 " << interpolator[id] << endl;
-			// обновляем индекс интерполянты
+			// Переходим к следующему значению интерполянты
 			id++;
 		}
 	}
+	// Запись последнего элемента
+	ofs << function[segments].argument << " " << function[segments].value << " ?0" << endl;
+	cout << setw(20) << left << function[segments].argument;
+	interpolator[id] = function[segments].value;
 	cout << endl;
 
 	// Закрываем запись в файл
 	ofs.close();
 
-	// Выводим значения интерполянты на экран
+	// ВЫВОД ЗНАЧЕНИЙ ИНТЕРПОЛЯНТЫ
 	for (int i=0; i<count; i++) {
 		cout << setw(20) << left << interpolator[i];
 	}
@@ -99,38 +114,51 @@ int main() {
 	return 0;
 }
 
-/*
- * Функция линейной интерполяции
- */
+// Линейная интерполяция
 double interpolation(double x, double xk, double xk1, double fk, double fk1) {
 	return ((x-xk) / (xk1 - xk)) * (fk1 - fk) + fk;
 }
 
-/*
- * Вычесляем сумму, передавая аргумент x и ссылку на переменную 
- * хранящую количество слагаемых для данной функции
- */
-float sum(float x, int* count) {
+// Интерполяционный многочлен Лагранджа
+double interpolation2(double x, functionValue function[], int count) {
 	double sum = 0;
-	int i = 1;
-	// Считаем сумму до тех пор, пока один из элементов не станет меньше epsilon
-	while (true) {
-		double element = pow(-1,i+1) * (pow(v*x,i+(i-1)) / fact(i+(i-1)));
-
-		if (abs(element) < epsilon) break;
-		else {
-			sum += element; 
-			i++;
+	for (int i=0; i<count; i++) {
+		double element = function[i].value;
+		// Считаем числитель
+		double a = 1;
+		for (int c=0; c<count; c++) {
+			if (i == c) continue;
+			a *= (x - function[c].argument);
 		}
+		// Считаем знаменатель
+		double b = 1;
+		for (int c=0; c<count; c++) {
+			if (i == c) continue;
+			b *= (function[i].argument - function[c].argument);
+		}
+		// Считаем слагаемое
+		element *= a / b;
+		sum += element;
 	}
-	*count = i-1;
-
 	return sum;
 }
 
-/**
- * Считаем факториал
- */
+// Вычесляем функциональный ряд
+float sum(float x, int* count) {
+	double sum = 0;
+	*count = 0;
+	for (int i = 1; true; i++) {
+		double element = pow(-1,i+1) * (pow(v*x,i+(i-1)) / fact(i+(i-1)));
+		if (abs(element) < epsilon) break;
+		else {
+			sum += element;
+			*count = i-1;
+		}
+	}
+	return sum;
+}
+
+// Считаем факториал
 double fact(int n) {
 	double result = 1;
 	for (int counter = 1; counter <= n; counter++) {
@@ -139,9 +167,7 @@ double fact(int n) {
 	return result;
 }
 
-/**
- * Читаем входные данные
- */
+// Читаем входные данные 
 void input() {
 	float input = 0;
 	cout << "Write epsilon (0 for default value): ";
@@ -162,10 +188,8 @@ void input() {
 	b = input;
 }
 
+// Рисуем линию
 void printLine(int c) {
-	// Рисуем таблицу
-	for (int i = 0; i < 20 * c; i++) {
-		cout << "-";
-	}
+	for (int i = 0; i < 20 * c; i++) cout << "-";
 	cout << endl;
 }
