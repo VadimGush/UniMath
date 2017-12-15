@@ -147,14 +147,18 @@ double interpolation2(double x, functionValue function[], int count) {
 float sum(float x, int* count) {
 	double sum = 0;
 	*count = 0;
+        cout << endl;
+        cout << "------------------------------------" << endl;
 	for (int i = 1; true; i++) {
 		double element = pow(-1,i+1) * (pow(v*x,i+(i-1)) / fact(i+(i-1)));
+                if (x == -2.0) cout << i << ": " << element << ": " << fact(i+(i-1)) << endl;
 		if (abs(element) < epsilon) break;
 		else {
 			sum += element;
 			*count = i-1;
 		}
 	}
+        cout << "------------------------------------" << endl;
 	return sum;
 }
 
