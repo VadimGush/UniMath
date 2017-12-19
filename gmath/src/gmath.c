@@ -17,6 +17,7 @@ double fact(int n) {
 struct function_value function(double x) {
         struct function_value result;
         result.argument = x;
+        result.value = 0;
         for (int i=1; 1; i++) {
                 double element = pow(-1.0,i+1) * (pow(VAR*x,i+(i-1)) / fact(i+(i-1)));
                 if (fabs(element) < EPSILON) break; 
