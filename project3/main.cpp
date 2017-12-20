@@ -11,7 +11,7 @@ struct functionValue {
 	int termsCount;		// количество слагаемых
 };
 // Основная константа
-const float v 	= 6; 		// номер варианта
+const float v 	= 5; 		// номер варианта
 float epsilon 	= pow(10,-4); 	// заданная точность
 int segments 	= 5;		// количество сегментов
 // Точки задающие границы отрезка

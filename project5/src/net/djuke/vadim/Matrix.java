@@ -65,14 +65,6 @@ public class Matrix {
         saveMatrix();
     }
 
-    public void createAnotherMatrix() {
-        matrix[0][0] = 1; matrix[0][1] = 2; matrix[0][2] = -1; vector[0] = 9;
-        matrix[1][0] = 2; matrix[1][1] = -1; matrix[1][2] = 3; vector[1] = 13;
-        matrix[2][0] = 3; matrix[2][1] = 2; matrix[2][2] = -5; vector[2] = -1;
-
-        saveMatrix();
-    }
-
     /**
      * Один шаг прямого хода метода Гаусса
      */

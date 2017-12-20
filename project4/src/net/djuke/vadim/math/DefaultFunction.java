@@ -15,7 +15,6 @@ public class DefaultFunction implements Function{
             double argument = data.getStart() + delta * i;
             data.getFunction().putValue(argument, function(argument));
         }
-
     }
 
     private double function(double x) {
